@@ -2,6 +2,10 @@
 __pycache__/
 *.pyc
 
+# Environment & Secrets
+.env
+.streamlit/secrets.toml
+
 # Virtual environment
 venv/
 .env/
@@ -11,6 +15,7 @@ venv/
 Thumbs.db
 
 # Database
+data.db
 Main App/data.db
 
 # Logs
