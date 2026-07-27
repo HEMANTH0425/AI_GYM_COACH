@@ -35,19 +35,21 @@ def main():
 
     initial_session_defaults()
 
-    if "voice_pipeline" not in st.session_state:
-        try:
-            api_key = os.environ.get("GROQ_API_KEY", "")
+    api_key = os.environ.get("GROQ_API_KEY", "")
+    if not api_key and hasattr(st, "secrets") and "GROQ_API_KEY" in st.secrets:
+        api_key = st.secrets["GROQ_API_KEY"]
+    if not api_key:
+        api_key = st.session_state.get("user_groq_api_key", "")
 
-            if not api_key and hasattr(st, "secrets") and "GROQ_API_KEY" in st.secrets:
-                api_key = st.secrets["GROQ_API_KEY"]
-            
-            groq_client = Groq(api_key=api_key)
-            llm_coach = LLMCoach(groq_client)
-            tts = TextToSpeech()
-            st.session_state.voice_pipeline = VoicePipeline(llm_coach, tts)
-        except Exception as e:
-            st.session_state.voice_pipeline = None
+    try:
+        groq_client = Groq(api_key=api_key) if api_key else None
+        llm_coach = LLMCoach(groq_client)
+        tts = TextToSpeech()
+        st.session_state.voice_pipeline = VoicePipeline(llm_coach, tts)
+    except Exception as e:
+        llm_coach = LLMCoach(None)
+        tts = TextToSpeech()
+        st.session_state.voice_pipeline = VoicePipeline(llm_coach, tts)
 
     workout_started = st.session_state.get("workout_started", False)
     
@@ -56,6 +58,15 @@ def main():
 
         if st.session_state.username:
             st.caption(f"👤 Login as {st.session_state.username}")
+
+        with st.expander("🔑 Groq API Key Settings", expanded=not bool(api_key)):
+            user_key_input = st.text_input("Enter Groq API Key", value=st.session_state.get("user_groq_api_key", ""), type="password")
+            if user_key_input != st.session_state.get("user_groq_api_key", ""):
+                st.session_state.user_groq_api_key = user_key_input
+                st.rerun()
+            if not api_key:
+                st.info("💡 Add your GROQ_API_KEY above or in Streamlit Secrets for AI voice coaching feedback.")
+
 
         st.divider()
 
