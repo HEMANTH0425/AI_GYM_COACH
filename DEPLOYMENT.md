@@ -5,7 +5,7 @@ The project has been cloned to **`E:\ai-gym-coach`**.
 
 Directory structure:
 - **`LandingPage/`**: Frontend landing page (`index.html`, `style.css`).
-- **`Main App/`**: Streamlit AI Web App with real-time pose estimation (MediaPipe & OpenCV), WebRTC streaming, and LLM Coaching (Groq API).
+- **`MainApp/`**: Streamlit AI Web App with real-time pose estimation (MediaPipe & OpenCV), WebRTC streaming, and LLM Coaching (Groq API).
 - **`venv/`**: Virtual environment with all installed dependencies.
 
 ---
@@ -13,7 +13,7 @@ Directory structure:
 ## 2. Running Locally
 
 ### Step 1: Environment Setup
-Create a `.env` file in `E:\ai-gym-coach\Main App\.env` with your Groq API key:
+Create a `.env` file in `E:\ai-gym-coach\MainApp\.env` with your Groq API key:
 ```env
 GROQ_API_KEY=your_groq_api_key_here
 ```
@@ -23,7 +23,7 @@ GROQ_API_KEY=your_groq_api_key_here
 Open your terminal in `E:\ai-gym-coach` and run:
 ```powershell
 .\venv\Scripts\Activate.ps1
-cd "Main App"
+cd MainApp
 streamlit run main.py
 ```
 The app will open automatically in your browser at `http://localhost:8501`.
@@ -38,14 +38,14 @@ You can open `E:\ai-gym-coach\LandingPage\index.html` directly in any web browse
 ### Option A: Deploying Main App on Streamlit Community Cloud (Recommended)
 
 1. **GitHub Setup**:
-   - Push this repository to your GitHub account (or fork `https://github.com/shradha-khapra/ai-gym-coach.git`).
+   - Push this repository to your GitHub account.
 
 2. **Deploy on Streamlit Community Cloud**:
    - Go to [share.streamlit.io](https://share.streamlit.io/) and log in with GitHub.
    - Click **New app**.
-   - Select your repository: `ai-gym-coach`.
-   - Branch: `main` (or `master`).
-   - Main file path: `Main App/main.py`.
+   - Select your repository: `HEMANTH0425/AI_GYM_COACH`.
+   - Branch: `main`.
+   - Main file path: `MainApp/main.py`.
 
 3. **Configure Environment Secrets**:
    - Before launching, click **Advanced settings...**.
