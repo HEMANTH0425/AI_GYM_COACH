@@ -14,6 +14,14 @@ from detectors.shoulder_press import ShoulderPressDetector
 from detectors.lunges import LungesDetector
 from services.config.workout_config import POSE_CONNECTIONS
 
+try:
+    from mediapipe.python.solutions import pose as mp_pose
+except ImportError:
+    try:
+        from mediapipe.solutions import pose as mp_pose
+    except ImportError:
+        mp_pose = None
+
 
 class VideoProcessorClass(VideoProcessorBase):
     def __init__(self):
@@ -40,12 +48,13 @@ class VideoProcessorClass(VideoProcessorBase):
             else:
                 raise FileNotFoundError("Task model file not found")
         except Exception as e:
-            self._mp_pose = mp.solutions.pose.Pose(
-                static_image_mode=False,
-                model_complexity=1,
-                min_detection_confidence=0.7,
-                min_tracking_confidence=0.7
-            )
+            if mp_pose is not None:
+                self._mp_pose = mp_pose.Pose(
+                    static_image_mode=False,
+                    model_complexity=1,
+                    min_detection_confidence=0.7,
+                    min_tracking_confidence=0.7
+                )
             self._use_tasks_api = False
 
         self._detectors = {

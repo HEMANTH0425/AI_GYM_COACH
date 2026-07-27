@@ -61,11 +61,12 @@ def main():
 
         with st.expander("🔑 Groq API Key Settings", expanded=not bool(api_key)):
             user_key_input = st.text_input("Enter Groq API Key", value=st.session_state.get("user_groq_api_key", ""), type="password")
-            if user_key_input != st.session_state.get("user_groq_api_key", ""):
+            if user_key_input and user_key_input != st.session_state.get("user_groq_api_key", ""):
                 st.session_state.user_groq_api_key = user_key_input
+                os.environ["GROQ_API_KEY"] = user_key_input
                 st.rerun()
             if not api_key:
-                st.info("💡 Add your GROQ_API_KEY above or in Streamlit Secrets for AI voice coaching feedback.")
+                st.info("💡 Add your GROQ_API_KEY above or permanently in Streamlit Cloud Secrets so you don't have to enter it again.")
 
 
         st.divider()
